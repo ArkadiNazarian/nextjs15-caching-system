@@ -30,130 +30,135 @@ export default function Home() {
         const slicer = new CuraWASM({
           // Enable verbose logging for debugging
           verbose: true,
-          
+          command: 'slice -j definitions/fdmprinter.def.json -o Model.gcode -s layer_height=0.2 -s speed_travel=80 -s bridge_settings_enabled=false -s speed_infill=60 -s infill_pattern=lines -s infill_line_width=0.4 -s infill_line_distance=0.4 -s bottom_layers=3 -s top_layers=3 -s retraction_amount=1 -s wipe_retraction_enable=false -s material_print_temperature=190 -s cool_min_speed=12 -s cool_min_layer_time=15 -s material_print_temperature_layer_0=190 -s material_final_print_temperature=190 -s speed_wall_0=50 -s speed_topbottom=48 -s adhesion_type=skirt -s skirt_line_count=2 -s skirt_gap=4 -l Model.stl',
           // definition:resolveDefinition('fdmprinter'),
           
           // Transfer the input file to the worker thread
           transfer: true,
           
           // Override settings for the current 3D printer definition
-          overrides: [
-            {
-              scope: 'e0',
-              key: 'infill_pattern',
-              value: 'grid'
-            },
-            {
-              scope:'e0',
-              key:'speed_travel',
-              value:'80'
-            },
-            {
-              scope:'e0',
-              key:'speed_print_layer_0',
-              value:'30'
-            },
-            {
-              scope:'e0',
-              key:'speed_infill',
-              value:'60'
-            },
-            {
-              scope:'global',
-              key:'retraction_min_travel',
-              value:'3'
-            },
-            {
-              scope:'e0',
-              key:'layer_height',
-              value:'0.2'
-            },
-            {
-              scope:'global',
-              key:'speed_support_infill',
-              value:'48'
-            },
-            {
-              scope:'global',
-              key:'machine_depth',
-              value:'200'
-            },
-            {
-              scope:'global',
-              key:'machine_width',
-              value:'200'
-            },
-            {
-              scope:'global',
-              key:'machine_height',
-              value:'200'
-            },
-            {
-              scope:'global',
-              key:'cool_min_layer_time_fan_speed_max',
-              value:'45'
-            },
-            {
-              scope:'global',
-              key:'retraction_min_travel',
-              value:'3'
-            },
-            {
-              scope:'global',
-              key:'adhesion_type',
-              value:'skirt'
-            },
-            {
-              scope:'global',
-              key:'skirt_brim_speed',
-              value:'30'
-            },
-            {
-              scope:'global',
-              key:'wall_line_count',
-              value:'2'
-            },
-            {
-              scope:'global',
-              key:'support_top_distance',
-              value:'0.4'
-            },
-            {
-              scope:'global',
-              key:'cool_min_layer_time_fan_speed_max',
-              value:'45'
-            },
-            {
-              scope:'global',
-              key:'cool_min_layer_time',
-              value:'15'
-            },
-            {
-              scope:'global',
-              key:'retraction_enable',
-              value:'true'
-            },
-            {
-              scope:'e0',
-              key:'infill_sparse_density',
-              value:'77'
-            },
-            {
-              scope:'global',
-              key:'skirt_brim_material_flow',
-              value:'90'
-            },
-            {
-              scope: 'e0',
-              key: 'infill_line_distance',
-              value: '0.52'
-            },
-            {
-              scope: 'e0',
-              key: 'infill_line_width',
-              value: '0.4'
-            },
-          ]
+          // overrides: [
+          //   {
+          //     scope: 'e0',
+          //     key: 'infill_pattern',
+          //     value: 'grid'
+          //   },
+          //   {
+          //     scope:'e0',
+          //     key:'speed_travel',
+          //     value:'80'
+          //   },
+          //   {
+          //     scope:'e0',
+          //     key:'speed_print_layer_0',
+          //     value:'30'
+          //   },
+          //   {
+          //     scope:'e0',
+          //     key:'speed_infill',
+          //     value:'60'
+          //   },
+          //   {
+          //     scope:'e0',
+          //     key:'retraction_min_travel',
+          //     value:'3'
+          //   },
+          //   {
+          //     scope:'e0',
+          //     key:'layer_height',
+          //     value:'0.2'
+          //   },
+          //   {
+          //     scope:'e0',
+          //     key:'speed_support_infill',
+          //     value:'48'
+          //   },
+          //   // {
+          //   //   scope:'e0',
+          //   //   key:'machine_depth',
+          //   //   value:'200'
+          //   // },
+          //   // {
+          //   //   scope:'e0',
+          //   //   key:'machine_width',
+          //   //   value:'200'
+          //   // },
+          //   // {
+          //   //   scope:'e0',
+          //   //   key:'machine_height',
+          //   //   value:'200'
+          //   // },
+          //   {
+          //     scope:'e0',
+          //     key:'speed_wall',
+          //     value:'3000'
+          //   },
+          //   {
+          //     scope:'e0',
+          //     key:'cool_min_layer_time_fan_speed_max',
+          //     value:'45'
+          //   },
+          //   {
+          //     scope:'e0',
+          //     key:'retraction_min_travel',
+          //     value:'3'
+          //   },
+          //   {
+          //     scope:'e0',
+          //     key:'adhesion_type',
+          //     value:'skirt'
+          //   },
+          //   {
+          //     scope:'e0',
+          //     key:'skirt_brim_speed',
+          //     value:'30'
+          //   },
+          //   {
+          //     scope:'e0',
+          //     key:'wall_line_count',
+          //     value:'2'
+          //   },
+          //   {
+          //     scope:'e0',
+          //     key:'support_top_distance',
+          //     value:'0.4'
+          //   },
+          //   {
+          //     scope:'e0',
+          //     key:'cool_min_layer_time_fan_speed_max',
+          //     value:'45'
+          //   },
+          //   {
+          //     scope:'e0',
+          //     key:'cool_min_layer_time',
+          //     value:'15'
+          //   },
+          //   {
+          //     scope:'e0',
+          //     key:'retraction_enable',
+          //     value:'true'
+          //   },
+          //   {
+          //     scope:'e0',
+          //     key:'infill_sparse_density',
+          //     value:'77'
+          //   },
+          //   {
+          //     scope:'e0',
+          //     key:'skirt_brim_material_flow',
+          //     value:'90'
+          //   },
+          //   {
+          //     scope: 'e0',
+          //     key: 'infill_line_distance',
+          //     value: '0.52'
+          //   },
+          //   {
+          //     scope: 'e0',
+          //     key: 'infill_line_width',
+          //     value: '0.4'
+          //   },
+          // ]
         });
         
         // Set up progress logger
@@ -288,3 +293,6 @@ console.log(result)
 // speed_infill
 // infill_line_distance
 // infill_line_width
+// bridge_settings_enabled
+// support_enable if true the speed_support_infill is used
+// infill_sparse_thickness
