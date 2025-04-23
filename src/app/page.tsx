@@ -35,6 +35,9 @@ export default function Home() {
           
           // Transfer the input file to the worker thread
           transfer: true,
+
+
+          // second: command: 'slice -j definitions/fdmprinter.def.json -o Model.gcode -s layer_height=0.2 -s retraction_speed=30 -s machine_width=200 -s machine_height=200 -s machine_depth=200 -s speed_travel=80 -s bridge_settings_enabled=false -s speed_infill=60 -s infill_pattern=lines -s infill_line_width=0.4 -s infill_line_distance=0.4 -s bottom_layers=3 -s top_layers=3 -s retraction_amount=1 -s wipe_retraction_enable=false -s material_print_temperature=190 -s cool_min_speed=12 -s cool_min_layer_time=15 -s material_print_temperature_layer_0=190 -s material_final_print_temperature=190 -s speed_wall_0=30 -s speed_topbottom=48 -s speed_wall_x=30 -s adhesion_type=skirt -s skirt_line_count=2 -s skirt_gap=4 -s outer_inset_first=true -l Model.stl',
           
           // Override settings for the current 3D printer definition
           // overrides: [
