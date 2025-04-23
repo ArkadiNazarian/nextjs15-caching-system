@@ -30,15 +30,18 @@ export default function Home() {
         const slicer = new CuraWASM({
           // Enable verbose logging for debugging
           verbose: true,
-          command: 'slice -j definitions/fdmprinter.def.json -o Model.gcode -s layer_height=0.2 -s speed_travel=80 -s bridge_settings_enabled=false -s speed_infill=60 -s infill_pattern=lines -s infill_line_width=0.4 -s infill_line_distance=0.4 -s bottom_layers=3 -s top_layers=3 -s retraction_amount=1 -s wipe_retraction_enable=false -s material_print_temperature=190 -s cool_min_speed=12 -s cool_min_layer_time=15 -s material_print_temperature_layer_0=190 -s material_final_print_temperature=190 -s speed_wall_0=50 -s speed_topbottom=48 -s adhesion_type=skirt -s skirt_line_count=2 -s skirt_gap=4 -l Model.stl',
+          command: 'slice -j definitions/fdmprinter.def.json -o Model.gcode -s layer_height=0.2 -s retraction_speed=3000 -s machine_width=200 -s machine_height=200 -s machine_depth=200 -s speed_travel=80 -s bridge_settings_enabled=false -s speed_infill=60 -s infill_pattern=lines -s infill_line_width=0.4 -s infill_line_distance=0.4 -s bottom_layers=3 -s top_layers=3 -s retraction_amount=1 -s wipe_retraction_enable=false -s material_print_temperature=190 -s cool_min_speed=12 -s cool_min_layer_time=15 -s material_print_temperature_layer_0=190 -s material_final_print_temperature=190 -s speed_wall_0=30 -s speed_topbottom=48 -s speed_wall_x=60 -s adhesion_type=skirt -s skirt_line_count=2 -s skirt_gap=4 -s outer_inset_first=true -s infill_sparse_thickness=0.2 -s layer_height_0=0.18 -s wall_x_material_flow=90 -s infill_material_flow=90 -s material_flow=90 -s speed_z_hop=16.6 -s speed_travel_layer_0=80 -s infill_overlap_mm=0.06 -s skirt_brim_speed=60 -s retraction_combing=noskin -s retraction_retract_speed=30 -s retraction_prime_speed=30 -s retract_at_layer_change=true -s retraction_min_travel=0 -l Model.stl',
           // definition:resolveDefinition('fdmprinter'),
           
           // Transfer the input file to the worker thread
           transfer: true,
 
+          // first :command: 'slice -j definitions/fdmprinter.def.json -o Model.gcode -s layer_height=0.2 -s speed_travel=80 -s bridge_settings_enabled=false -s speed_infill=60 -s infill_pattern=lines -s infill_line_width=0.4 -s infill_line_distance=0.4 -s bottom_layers=3 -s top_layers=3 -s retraction_amount=1 -s wipe_retraction_enable=false -s material_print_temperature=190 -s cool_min_speed=12 -s cool_min_layer_time=15 -s material_print_temperature_layer_0=190 -s material_final_print_temperature=190 -s speed_wall_0=50 -s speed_topbottom=48 -s adhesion_type=skirt -s skirt_line_count=2 -s skirt_gap=4 -l Model.stl',
 
           // second: command: 'slice -j definitions/fdmprinter.def.json -o Model.gcode -s layer_height=0.2 -s retraction_speed=30 -s machine_width=200 -s machine_height=200 -s machine_depth=200 -s speed_travel=80 -s bridge_settings_enabled=false -s speed_infill=60 -s infill_pattern=lines -s infill_line_width=0.4 -s infill_line_distance=0.4 -s bottom_layers=3 -s top_layers=3 -s retraction_amount=1 -s wipe_retraction_enable=false -s material_print_temperature=190 -s cool_min_speed=12 -s cool_min_layer_time=15 -s material_print_temperature_layer_0=190 -s material_final_print_temperature=190 -s speed_wall_0=30 -s speed_topbottom=48 -s speed_wall_x=30 -s adhesion_type=skirt -s skirt_line_count=2 -s skirt_gap=4 -s outer_inset_first=true -l Model.stl',
           
+          // third: command: 'slice -j definitions/fdmprinter.def.json -o Model.gcode -s layer_height=0.2 -s retraction_speed=3000 -s machine_width=200 -s machine_height=200 -s machine_depth=200 -s speed_travel=80 -s bridge_settings_enabled=false -s speed_infill=60 -s infill_pattern=lines -s infill_line_width=0.4 -s infill_line_distance=0.4 -s bottom_layers=3 -s top_layers=3 -s retraction_amount=1 -s wipe_retraction_enable=false -s material_print_temperature=190 -s cool_min_speed=12 -s cool_min_layer_time=15 -s material_print_temperature_layer_0=190 -s material_final_print_temperature=190 -s speed_wall_0=30 -s speed_topbottom=48 -s speed_wall_x=60 -s adhesion_type=skirt -s skirt_line_count=2 -s skirt_gap=4 -s outer_inset_first=true -s infill_sparse_thickness=0.2 -s layer_height_0=0.18 -s wall_x_material_flow=90 -s infill_material_flow=90 -s material_flow=90 -s speed_z_hop=16.6 -s speed_travel_layer_0=80 -s infill_overlap_mm=0.06 -s skirt_brim_speed=60 -s retraction_combing=noskin -s retraction_retract_speed=30 -s retraction_prime_speed=30 -s retract_at_layer_change=true -s retraction_min_travel=0 -l Model.stl',
+
           // Override settings for the current 3D printer definition
           // overrides: [
           //   {
@@ -298,4 +301,5 @@ console.log(result)
 // infill_line_width
 // bridge_settings_enabled
 // support_enable if true the speed_support_infill is used
-// infill_sparse_thickness
+// infill_sparse_thickness = layer_height * infillLayerInterval
+// infill_overlap_mm = 15% of layer_width or nozzle_diameter
