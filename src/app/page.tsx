@@ -40,6 +40,10 @@ export default function Home() {
           '-s infill_pattern=lines',
           '-s infill_line_width=0.4',
           '-s infill_line_distance=0.4',
+          '-s wall_line_width_0=0.4',
+          '-s wall_line_width_x=0.4',
+          '-s skin_line_width=0.4',
+          '-s skirt_brim_line_width=0.4',
           '-s bottom_layers=3',
           '-s top_layers=3',
           '-s retraction_amount=1',
@@ -63,7 +67,7 @@ export default function Home() {
           // '-s material_flow=90',
           '-s speed_z_hop=16.67',
           '-s speed_travel_layer_0=80',
-          '-s infill_overlap_mm=0.06',
+          // '-s infill_overlap_mm=0.06',
           '-s skirt_brim_speed=60',
           '-s retraction_combing=noskin',
           '-s retraction_retract_speed=30',
@@ -362,3 +366,14 @@ console.log(result)
 // infill_overlap_mm = 15% of layer_width or nozzle_diameter
 // layer_height_0 = layer_height * 90%
 // density = infill_line_w / infill_line_distance == > infill_line_w / [0 to 1] = infill_line_distance
+// //////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+//  these are for nozzle diameter
+
+//   '-s wall_line_width_0=0.4',
+// '-s wall_line_width_x=0.4',
+// '-s skin_line_width=0.4',
+// '-s skirt_brim_line_width=0.4',
+// '-s infill_line_width=0.4',
+
+// //////////////////////////////////////////////////////////////////////////////////////////////////////////
