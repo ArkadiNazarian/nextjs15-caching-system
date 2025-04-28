@@ -15,22 +15,21 @@ export default function Home() {
   const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const uploadedFile = e.target.files?.[0];
     if (!uploadedFile) return;
-    
+
     setFile(uploadedFile);
     setProgress(0);
-    
+
     try {
       const reader = new FileReader();
       reader.onload = async (event) => {
         if (!event.target?.result) return;
-        
+
         const fileContent = event.target.result as ArrayBuffer;
 
 
         const commandParts = [
           'slice -j definitions/fdmprinter.def.json -o Model.gcode',
           '-s layer_height=0.2',
-          // '-s retraction_speed=30',
           '-s machine_width=200',
           '-s machine_height=200',
           '-s machine_depth=200',
@@ -44,6 +43,7 @@ export default function Home() {
           '-s wall_line_width_x=0.4',
           '-s skin_line_width=0.4',
           '-s skirt_brim_line_width=0.4',
+          '-s wall_0_wipe_dist=0.2',
           '-s bottom_layers=3',
           '-s top_layers=3',
           '-s retraction_amount=1',
@@ -53,13 +53,17 @@ export default function Home() {
           '-s cool_min_layer_time=15',
           '-s material_print_temperature_layer_0=190',
           // '-s material_final_print_temperature=190',
+          '-s speed_print_layer_0=30',
+          '-s initial_bottom_layers=3',
+          '-s infill_before_walls=false',
           '-s speed_wall_0=30',
           '-s speed_topbottom=48',
           '-s speed_wall_x=60',
           '-s adhesion_type=skirt',
           '-s skirt_line_count=2',
           '-s skirt_gap=4',
-          '-s outer_inset_first=true',
+          '-s inset_direction=outside_in',
+          // '-s outer_inset_first=true',
           '-s infill_sparse_thickness=0.2',
           '-s layer_height_0=0.18',
           '-s wall_x_material_flow=90',
@@ -82,27 +86,27 @@ export default function Home() {
           '-s machine_max_feedrate_y=80',
           '-l Model.stl'
         ];
-        
+
         // Create a new slicer with configuration
         const slicer = new CuraWASM({
           // Enable verbose logging for debugging
           verbose: true,
           command: commandParts.join(' '),
           // definition:resolveDefinition('fdmprinter'),
-          
+
           // Transfer the input file to the worker thread
           transfer: true,
 
           // first :command: 'slice -j definitions/fdmprinter.def.json -o Model.gcode -s layer_height=0.2 -s speed_travel=80 -s bridge_settings_enabled=false -s speed_infill=60 -s infill_pattern=lines -s infill_line_width=0.4 -s infill_line_distance=0.4 -s bottom_layers=3 -s top_layers=3 -s retraction_amount=1 -s wipe_retraction_enable=false -s material_print_temperature=190 -s cool_min_speed=12 -s cool_min_layer_time=15 -s material_print_temperature_layer_0=190 -s material_final_print_temperature=190 -s speed_wall_0=50 -s speed_topbottom=48 -s adhesion_type=skirt -s skirt_line_count=2 -s skirt_gap=4 -l Model.stl',
 
           // second: command: 'slice -j definitions/fdmprinter.def.json -o Model.gcode -s layer_height=0.2 -s retraction_speed=30 -s machine_width=200 -s machine_height=200 -s machine_depth=200 -s speed_travel=80 -s bridge_settings_enabled=false -s speed_infill=60 -s infill_pattern=lines -s infill_line_width=0.4 -s infill_line_distance=0.4 -s bottom_layers=3 -s top_layers=3 -s retraction_amount=1 -s wipe_retraction_enable=false -s material_print_temperature=190 -s cool_min_speed=12 -s cool_min_layer_time=15 -s material_print_temperature_layer_0=190 -s material_final_print_temperature=190 -s speed_wall_0=30 -s speed_topbottom=48 -s speed_wall_x=30 -s adhesion_type=skirt -s skirt_line_count=2 -s skirt_gap=4 -s outer_inset_first=true -l Model.stl',
-          
+
           // third: command: 'slice -j definitions/fdmprinter.def.json -o Model.gcode -s layer_height=0.2 -s retraction_speed=3000 -s machine_width=200 -s machine_height=200 -s machine_depth=200 -s speed_travel=80 -s bridge_settings_enabled=false -s speed_infill=60 -s infill_pattern=lines -s infill_line_width=0.4 -s infill_line_distance=0.4 -s bottom_layers=3 -s top_layers=3 -s retraction_amount=1 -s wipe_retraction_enable=false -s material_print_temperature=190 -s cool_min_speed=12 -s cool_min_layer_time=15 -s material_print_temperature_layer_0=190 -s material_final_print_temperature=190 -s speed_wall_0=30 -s speed_topbottom=48 -s speed_wall_x=60 -s adhesion_type=skirt -s skirt_line_count=2 -s skirt_gap=4 -s outer_inset_first=true -s infill_sparse_thickness=0.2 -s layer_height_0=0.18 -s wall_x_material_flow=90 -s infill_material_flow=90 -s material_flow=90 -s speed_z_hop=16.6 -s speed_travel_layer_0=80 -s infill_overlap_mm=0.06 -s skirt_brim_speed=60 -s retraction_combing=noskin -s retraction_retract_speed=30 -s retraction_prime_speed=30 -s retract_at_layer_change=true -s retraction_min_travel=0 -l Model.stl',
 
           // forth: command: 'slice -j definitions/fdmprinter.def.json -o Model.gcode -s layer_height=0.2 -s retraction_speed=30 -s machine_width=200 -s machine_height=200 -s machine_depth=200 -s speed_travel=80 -s bridge_settings_enabled=false -s speed_infill=60 -s infill_pattern=lines -s infill_line_width=0.4 -s infill_line_distance=0.4 -s bottom_layers=3 -s top_layers=3 -s retraction_amount=1 -s wipe_retraction_enable=false -s material_print_temperature=190 -s cool_min_speed=12 -s cool_min_layer_time=15 -s material_print_temperature_layer_0=190 -s material_final_print_temperature=190 -s speed_wall_0=30 -s speed_topbottom=48 -s speed_wall_x=60 -s adhesion_type=skirt -s skirt_line_count=2 -s skirt_gap=4 -s outer_inset_first=true -s infill_sparse_thickness=0.2 -s layer_height_0=0.18 -s wall_x_material_flow=90 -s infill_material_flow=90 -s material_flow=90 -s speed_z_hop=16.67 -s speed_travel_layer_0=80 -s infill_overlap_mm=0.06 -s skirt_brim_speed=60 -s retraction_combing=noskin -s retraction_retract_speed=30 -s retraction_prime_speed=30 -s retract_at_layer_change=true -s retraction_min_travel=0 -s wall_x_material_flow_layer_0=90 -s wall_0_material_flow_layer_0=90 -s default_material_print_temperature=190 -s machine_heated_bed=true -s machine_max_feedrate_x=80 -s machine_max_feedrate_y=80 -l Model.stl',
-          
+
           // fifth: command: 'slice -j definitions/fdmprinter.def.json -o Model.gcode -s layer_height=0.2 -s retraction_speed=30 -s machine_width=200 -s machine_height=200 -s machine_depth=200 -s speed_travel=80 -s bridge_settings_enabled=false -s speed_infill=60 -s infill_pattern=lines -s infill_line_width=0.4 -s infill_line_distance=0.4 -s bottom_layers=3 -s top_layers=3 -s retraction_amount=1 -s wipe_retraction_enable=false -s material_print_temperature=190 -s cool_min_speed=12 -s cool_min_layer_time=15 -s material_print_temperature_layer_0=190 -s material_final_print_temperature=190 -s speed_wall_0=30 -s speed_topbottom=48 -s speed_wall_x=60 -s adhesion_type=skirt -s skirt_line_count=2 -s skirt_gap=4 -s outer_inset_first=true -s infill_sparse_thickness=0.2 -s layer_height_0=0.18 -s wall_x_material_flow=90 -s infill_material_flow=90 -s material_flow=90 -s speed_z_hop=16.67 -s speed_travel_layer_0=80 -s infill_overlap_mm=0.06 -s skirt_brim_speed=60 -s retraction_combing=noskin -s retraction_retract_speed=30 -s retraction_prime_speed=30 -s retract_at_layer_change=true -s retraction_min_travel=0 -s wall_x_material_flow_layer_0=90 -s wall_0_material_flow_layer_0=90 -s default_material_print_temperature=190 -s machine_heated_bed=true -s machine_max_feedrate_x=80 -s machine_max_feedrate_y=80 -l Model.stl',
-          
+
           // Override settings for the current 3D printer definition
           // overrides: [
           //   {
@@ -227,19 +231,19 @@ export default function Home() {
           //   },
           // ]
         });
-        
+
         // Set up progress logger
         slicer.on('progress', (percent: number) => {
           setProgress(percent);
           console.log(`Progress: ${percent}%`);
         });
-        
+
         // Determine file extension
         const fileExtension = uploadedFile.name.split('.').pop()?.toLowerCase() || 'stl';
-        
+
         // Slice the model
         const { gcode, metadata } = await slicer.slice(fileContent, fileExtension);
-        
+
         // Display the results
         setResult(JSON.stringify({
           metadata,
@@ -253,12 +257,12 @@ export default function Home() {
       setResult("Error processing file: " + (error as Error).message);
     }
   };
-console.log(result)
+  console.log(result)
   return (
     <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
       <div className="flex flex-col items-center gap-4">
         {/* <p>Current time: {time.toString()}</p> */}
-        
+
         <div className="flex flex-col items-center gap-2">
           <input
             type="file"
@@ -271,25 +275,25 @@ console.log(result)
               file:bg-violet-50 file:text-violet-700
               hover:file:bg-violet-100"
           />
-          
+
           {file && (
             <p className="text-sm text-gray-600">
               Selected file: {file.name}
             </p>
           )}
-          
+
           {progress > 0 && progress < 100 && (
             <div className="w-full max-w-xs mt-2">
               <div className="bg-gray-200 rounded-full h-2.5">
-                <div 
-                  className="bg-blue-600 h-2.5 rounded-full" 
+                <div
+                  className="bg-blue-600 h-2.5 rounded-full"
                   style={{ width: `${progress}%` }}
                 ></div>
               </div>
               <p className="text-xs text-center mt-1">Processing: {progress.toFixed(1)}%</p>
             </div>
           )}
-          
+
           {/* {result && (
             <div className="mt-4 p-4 bg-gray-100 rounded-lg">
               <pre className="text-sm overflow-auto max-h-60">
@@ -375,5 +379,6 @@ console.log(result)
 // '-s skin_line_width=0.4',
 // '-s skirt_brim_line_width=0.4',
 // '-s infill_line_width=0.4',
+// wall_0_wipe_dist == 1/2 of nozzle_diameter
 
 // //////////////////////////////////////////////////////////////////////////////////////////////////////////
