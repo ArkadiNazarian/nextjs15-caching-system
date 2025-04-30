@@ -29,7 +29,7 @@ export default function Home() {
       if (!res.ok) {
         const errData = await res.json();
         throw new Error(errData.error || 'Unknown error');
-      }
+      } 
 
       const data = await res.json();
       setVolume(data.volumeCm3);
