@@ -11,6 +11,7 @@ export default function Home() {
   const [result, setResult] = useState<string>("");
   const [progress, setProgress] = useState<number>(0);
   const time = new Date();
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
 
   const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const uploadedFile = e.target.files?.[0];
@@ -47,6 +48,7 @@ export default function Home() {
           '-s bottom_layers=3',
           '-s top_layers=3',
           '-s retraction_amount=1',
+          '-s fill_outline_gaps=true',
           // '-s wipe_retraction_enable=false',
           '-s material_print_temperature=190',
           '-s cool_min_speed=12',
@@ -62,7 +64,8 @@ export default function Home() {
           '-s adhesion_type=skirt',
           '-s skirt_line_count=2',
           '-s skirt_gap=4',
-          '-s inset_direction=outside_in',
+          '-s inset_direction=inside_out',
+          // '-s skin_overlap=0.06',
           // '-s outer_inset_first=true',
           '-s infill_sparse_thickness=0.2',
           '-s layer_height_0=0.18',
@@ -84,6 +87,67 @@ export default function Home() {
           '-s machine_heated_bed=true',
           '-s machine_max_feedrate_x=80',
           '-s machine_max_feedrate_y=80',
+          '-s wall_0_wipe_dist=0',
+          '-s optimize_wall_printing_order=true',
+          '-s roofing_layer_count=3',
+          '-s flooring_layer_count=3',
+          '-s skin_outline_count=0',
+          '-s skin_overlap_mm=0.06',
+          // '-s connect_infill_polygons=false',
+          '-s infill_overlap_mm=0.06',
+          '-s infill_support_enabled=false',
+          '-s top_skin_preshrink=0',
+          '-s top_skin_expand_distance=0',
+          '-s bottom_skin_expand_distance=0',
+
+          // '-s acceleration_enabled=false',
+          // '-s acceleration_print=1000',
+          // '-s acceleration_infill=1000',
+          // '-s acceleration_wall=1000',
+          // '-s acceleration_wall_0=1000',
+          // '-s acceleration_wall_x=1000',
+          // '-s acceleration_wall_0_roofing=1000',
+          // '-s acceleration_wall_x_roofing=1000',
+          // '-s acceleration_topbottom=1000',
+          // '-s acceleration_layer_0=500',
+          // '-s acceleration_skirt_brim=500',
+
+          // '-s jerk_enabled=false',
+          // '-s jerk_print=10',
+          // '-s jerk_infill=10',
+          // '-s jerk_wall=10',
+          // '-s jerk_wall_0=10',
+          // '-s jerk_wall_x=10',
+          // '-s jerk_wall_0_roofing=10',
+          // '-s jerk_wall_x_roofing=10',
+          // '-s jerk_topbottom=10',
+          // '-s jerk_skirt_brim=5',
+
+          // '-s retraction_enable=true',
+          // '-s retraction_hop=0',
+
+          // '-s skirt_brim_minimal_length=250',
+
+          '-s meshfix_union_all=true',
+          '-s meshfix_union_all_remove_holes=false',
+          '-s meshfix_extensive_stitching=false',
+          '-s meshfix_keep_open_polygons=false',
+          '-s meshfix_maximum_resolution=0.01',
+          '-s meshfix_maximum_travel_resolution=0.01',
+          '-s meshfix_maximum_deviation=0.025',
+          '-s meshfix_maximum_extrusion_area_deviation=0',
+          '-s multiple_mesh_overlap=0',
+          '-s carve_multiple_volumes=false',
+          '-s alternate_carve_order=false',
+          '-s remove_empty_first_layers=true',
+          '-s meshfix_fluid_motion_enabled=false',
+          '-s meshfix_fluid_motion_shift_distance=0.5',
+          '-s meshfix_fluid_motion_small_distance=0.01',
+          '-s meshfix_fluid_motion_angle=45',
+          
+
+          
+
           '-l Model.stl'
         ];
 
@@ -250,6 +314,11 @@ export default function Home() {
           gcodeSize: gcode.byteLength,
           gcodePreview: new TextDecoder().decode(gcode.slice(0, 1000)) + '...'
         }, null, 2));
+
+        // Generate preview URL
+        const blob = new Blob([gcode], { type: 'application/octet-stream' });
+        const url = URL.createObjectURL(blob);
+        setPreviewUrl(url);
       };
       reader.readAsArrayBuffer(uploadedFile);
     } catch (error) {
@@ -291,6 +360,17 @@ export default function Home() {
                 ></div>
               </div>
               <p className="text-xs text-center mt-1">Processing: {progress.toFixed(1)}%</p>
+            </div>
+          )}
+
+          {previewUrl && (
+            <div className="mt-4">
+              <h3 className="text-sm font-semibold mb-2">STL Preview:</h3>
+              <img
+                src={previewUrl}
+                alt="STL Preview"
+                className="max-w-full h-auto rounded-lg shadow-md"
+              />
             </div>
           )}
 
