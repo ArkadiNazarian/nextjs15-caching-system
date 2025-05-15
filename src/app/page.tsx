@@ -44,7 +44,7 @@ export default function Home() {
           '-s wall_line_width_x=0.4',
           '-s skin_line_width=0.4',
           '-s skirt_brim_line_width=0.4',
-          '-s wall_0_wipe_dist=0.2',
+          // '-s wall_0_wipe_dist=0.2',
           '-s bottom_layers=3',
           '-s top_layers=3',
           '-s retraction_amount=1',
@@ -84,7 +84,7 @@ export default function Home() {
           // '-s wall_x_material_flow_layer_0=90',
           // '-s wall_0_material_flow_layer_0=90',
           // '-s default_material_print_temperature=190',
-          '-s machine_heated_bed=true',
+          // '-s machine_heated_bed=true',
           '-s machine_max_feedrate_x=80',
           '-s machine_max_feedrate_y=80',
           // '-s wall_0_wipe_dist=0',
@@ -118,6 +118,7 @@ export default function Home() {
           // '-s meshfix_fluid_motion_shift_distance=0.5',
           // '-s meshfix_fluid_motion_small_distance=0.01',
           // '-s meshfix_fluid_motion_angle=45',
+          
           
 
           
@@ -420,7 +421,7 @@ export default function Home() {
 // infill_line_width
 // bridge_settings_enabled
 // support_enable if true the speed_support_infill is used
-// infill_sparse_thickness = layer_height * infillLayerInterval
+// infill_sparse_thickness = layer_height
 // infill_overlap_mm = 15% of layer_width or nozzle_diameter
 // layer_height_0 = layer_height * 90%
 // density = infill_line_w / infill_line_distance == > infill_line_w / [0 to 1] = infill_line_distance
